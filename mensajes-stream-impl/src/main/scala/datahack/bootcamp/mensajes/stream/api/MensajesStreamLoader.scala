@@ -10,17 +10,17 @@ import play.api.libs.ws.ahc.AhcWSComponents
 class MensajesStreamLoader extends LagomApplicationLoader {
 
   override def load(context: LagomApplicationContext): LagomApplication =
-    new GeolocalizacionStreamApplication(context) {
+    new MensajesStreamApplication(context) {
       override def serviceLocator = NoServiceLocator
     }
 
   override def loadDevMode(context: LagomApplicationContext): LagomApplication =
-    new GeolocalizacionStreamApplication(context) with LagomDevModeComponents
+    new MensajesStreamApplication(context) with LagomDevModeComponents
 
   override def describeService = Some(readDescriptor[MensajesStreamService])
 }
 
-abstract class GeolocalizacionStreamApplication(context: LagomApplicationContext)
+abstract class MensajesStreamApplication(context: LagomApplicationContext)
   extends LagomApplication(context)
     with AhcWSComponents {
 

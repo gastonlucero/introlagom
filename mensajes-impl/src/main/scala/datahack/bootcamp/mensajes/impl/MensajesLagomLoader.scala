@@ -6,6 +6,7 @@ import com.lightbend.lagom.scaladsl.devmode.LagomDevModeComponents
 import com.lightbend.lagom.scaladsl.persistence.cassandra.CassandraPersistenceComponents
 import com.lightbend.lagom.scaladsl.server._
 import com.softwaremill.macwire._
+import datahack.bootcamp.google.api.GeoGoogleService
 import datahack.bootcamp.mensajes.api.MensajesService
 import play.api.libs.ws.ahc.AhcWSComponents
 
@@ -32,6 +33,8 @@ abstract class IntrolagomApplication(context: LagomApplicationContext)
 
   // Se registra el serializador que usaremos
   override lazy val jsonSerializerRegistry = IntrolagomSerializerRegistry
+
+  lazy val geoGoogleService = serviceClient.implement[GeoGoogleService]
 
   // Registro de la entidad
   persistentEntityRegistry.register(wire[DispositivoEntity])

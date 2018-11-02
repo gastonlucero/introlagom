@@ -27,7 +27,7 @@ class DispositivoEntity extends PersistentEntity {
     */
   override def behavior: Behavior = {
     case DispositivoState(mensaje, _) => Actions().onCommand[MensajeRecibidoCommand, Done] {
-      // Command handler for the UseGreetingMessage command
+
       case (MensajeRecibidoCommand(newMessage), ctx, state) =>
         // Como respuesta al comando,lo  persistimos y enviamos el evento
         //MensajeNuevaPosicionEvent que actaulizar el state de la entidad
@@ -42,7 +42,7 @@ class DispositivoEntity extends PersistentEntity {
       // Command handler
       case (UltimaPosicionCommand(imei), ctx, state) =>
         // Respondemos con la ultima posicion del imei
-        ctx.reply(s"Ultima Posicion $imei - evento=[${state.message}] es Lope de Hoyos 10")
+        ctx.reply(s"Ultima Posicion $imei - evento=[${state.message}] es Lopez de Hoyos 135")
     }.onEvent {
       // Event handler
       case (MensajeNuevaPosicionEvent(newMessage), state) =>

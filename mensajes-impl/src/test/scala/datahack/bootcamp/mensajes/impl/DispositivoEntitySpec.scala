@@ -24,10 +24,10 @@ class DispositivoEntitySpec extends WordSpec with Matchers with BeforeAndAfterAl
   "Introlagom entity" should {
 
     "recibir un mensaje y actualiar el estado" in withTestDriver { driver =>
-      val outcome1 = driver.run(MensajeRecibidoCommand("valor=1;long=-68.12;lat=-32.3434"))
-      outcome1.events should contain only MensajeNuevaPosicionEvent("valor=1;long=-68.12;lat=-32.3434")
+      val outcome1 = driver.run(MensajeRecibidoCommand("valor=123ABC;lat=40.447339;long=-3.669452"))
+      outcome1.events should contain only MensajeNuevaPosicionEvent("valor=123ABC;lat=40.447339;long=-3.669452")
       val outcome2 = driver.run(UltimaPosicionCommand("gps"))
-      outcome2.replies should contain only "Ultima Posicion gps - evento=[valor=1;long=-68.12;lat=-32.3434] es Lope de Hoyos 10"
+      outcome2.replies should contain only "Ultima Posicion gps - evento=[valor=123ABC;lat=40.447339;long=-3.669452] es Lopez de Hoyos 135"
     }
 
   }

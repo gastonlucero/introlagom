@@ -28,10 +28,9 @@ class MensajesServiceSpec extends AsyncWordSpec with Matchers with BeforeAndAfte
 
     "allow responding with a custom message" in {
       for {
-        future <- client.mensaje("gps1").invoke(EventoDispositivoMessage("valor=1;lat=1;long1"))
+        future <- client.mensaje("gps1").invoke(EventoDispositivoMessage("valor=123ABC;lat=40.447339;long=-3.669452"))
         answer <- client.posicion("gps1").invoke()
-      } yield {
-        answer shouldBe "Ultima Posicion gps1 - evento=[valor=1;lat=1;long1] es Lope de Hoyos 10"
+      } yield {answer shouldBe "Ultima Posicion gps1 - evento=[valor=123ABC;lat=40.447339;long=-3.669452] es Lopez de Hoyos 135"
       }
     }
   }

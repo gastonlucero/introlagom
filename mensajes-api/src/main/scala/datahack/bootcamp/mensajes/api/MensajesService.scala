@@ -4,25 +4,15 @@ import akka.{Done, NotUsed}
 import com.lightbend.lagom.scaladsl.api.{Service, ServiceCall}
 import play.api.libs.json.{Format, Json}
 
-object MensajesService {
-  val TOPIC_NAME = "posiciones"
-}
-
-/**
-  * The Introlagok service interface.
-  * <p>
-  * This describes everything that Lagom needs to know about how to serve and
-  * consume the IntrolagokService.
-  */
 trait MensajesService extends Service {
 
   /**
-    * Example: curl http://localhost:9000/api/mensajes/"evento"
+    * Example: curl http://localhost:9000/api/mensajes/imei123
     */
   def posicion(imei: String): ServiceCall[NotUsed, String]
 
   /**
-    * Example: curl -H "Content-Type: application/json" -X POST -d '{"evento":"Hi"}' http://localhost:9000/api/hello/Alice
+    * Example: curl -H "Content-Type: application/json" -X POST -d '{"evento":"valor=123ABC;lat=40.447339;long=-3.669452"}' http://localhost:9000/api/mensajes/imei123
     */
   def mensaje(imei: String): ServiceCall[EventoDispositivoMessage, Done]
 
@@ -30,15 +20,15 @@ trait MensajesService extends Service {
     import Service._
     named("mensajes-api")
       .withCalls(
-        pathCall("/api/mensajes/:imei", posicion _),
-        pathCall("/api/mensajes/:imei", mensaje _)
+        pathCall("/api/mensajes/:imei", posicion _), //Get
+        pathCall("/api/mensajes/:imei", mensaje _) //Post
       )
       .withAutoAcl(true)
   }
 }
 
 /**
-  * The greeting message class.
+  * Mensaje de evento
   */
 case class EventoDispositivoMessage(evento: String)
 
@@ -50,18 +40,3 @@ object EventoDispositivoMessage {
   implicit val format: Format[EventoDispositivoMessage] = Json.format[EventoDispositivoMessage]
 }
 
-
-/**
-  * The greeting message class used by the topic stream.
-  * Different than [[EventoDispositivoMessage]], this message includes the name (id).
-  */
-case class GreetingMessageChanged(name: String, message: String)
-
-object GreetingMessageChanged {
-  /**
-    * Format for converting greeting messages to and from JSON.
-    *
-    * This will be picked up by a Lagom implicit conversion from Play's JSON format to Lagom's message serializer.
-    */
-  implicit val format: Format[GreetingMessageChanged] = Json.format[GreetingMessageChanged]
-}

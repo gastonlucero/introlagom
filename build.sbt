@@ -10,7 +10,8 @@ val scalaTest = "org.scalatest" %% "scalatest" % "3.0.4" % Test
 lagomKafkaEnabled in ThisBuild := false
 
 lazy val `introlagom` = (project in file("."))
-  .aggregate(`mensajes-api`, `mensajes-impl`, `mensajes-stream-api`, `mensajes-stream-impl`)
+  .aggregate(`mensajes-api`, `mensajes-impl`, `mensajes-stream-api`, `mensajes-stream-impl`,
+    `google-search-api`,`google-search-impl`)
 
 lazy val `mensajes-api` = (project in file("mensajes-api"))
   .settings(
@@ -30,7 +31,7 @@ lazy val `mensajes-impl` = (project in file("mensajes-impl"))
     )
   )
   .settings(lagomForkedTestSettings: _*)
-  .dependsOn(`mensajes-api`)
+  .dependsOn(`mensajes-api`,`google-search-api`)
 
 lazy val `mensajes-stream-api` = (project in file("mensajes-stream-api"))
   .settings(
@@ -49,3 +50,20 @@ lazy val `mensajes-stream-impl` = (project in file("mensajes-stream-impl"))
     )
   )
   .dependsOn(`mensajes-stream-api`, `mensajes-api`)
+
+lazy val `google-search-api` = (project in file("google-search-api"))
+  .settings(
+    libraryDependencies ++= Seq(
+      lagomScaladslApi
+    )
+  )
+
+lazy val `google-search-impl` = (project in file("google-search-impl"))
+  .enablePlugins(LagomScala)
+  .settings(
+    libraryDependencies ++= Seq(
+      lagomScaladslTestKit,
+      macwire
+    )
+  )
+  .dependsOn(`google-search-api`)
